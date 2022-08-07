@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Verifiable Credentials for JOSE</title>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    <!--
+      === NOTA BENE ===
+      For the three scripts below, if your spec resides on dev.w3 you can check them
+      out in the same tree and use relative links so that they'll work offline,
+     -->
+    <script
+      src="https://www.w3.org/Tools/respec/respec-w3c"
+      class="remove"
+    ></script>
+    <script type="text/javascript" class="remove">
+      var respecConfig = {
+        // specification status (e.g. WD, LCWD, NOTE, etc.). If in doubt use ED.
+        specStatus: "unofficial",
+        group: "credentials",
+        wgPublicList: "public-credentials",
+        // the specification's short name, as in http://www.w3.org/TR/short-name/
+        shortName: "vc-jose",
+        // unable to fix this due to not having a published URL
+
+        // if you wish the publication date to be other than today, set this
+        // publishDate:  "2009-08-06",
+
+        // if there is a previously published draft, uncomment this and set its YYYY-MM-DD date
+        // and its maturity status
+        // previousPublishDate:  "1977-03-15",
+        // previousMaturity:  "WD",
+
+        // if there a publicly available Editor's Draft, this is the link
+        edDraftURI: "https://or13.github.io/draft-osteele-vc-jose",
+
+        // if this is a LCWD, uncomment and set the end of its review period
+        // lcEnd: "2009-08-05",
+
+        // if you want to have extra CSS, append them to this list
+        // it is recommended that the respec.css stylesheet be kept
+        //extraCSS:             ["spec.css", "prettify.css"],
+
+        // editors, add as many as you like
+        // only "name" is required
+        editors: [
+          {
+            name: "Orie Steele",
+            url: "https://transmute.industries",
+            company: "Transmute",
+            companyURL: "https://transmute.industries",
+          },
+        ],
+
+        // extend the bibliography entries
+        //localBiblio: webpayments.localBiblio,
+
+        wg: "Credentials Community Group",
+        // URI of the public WG page
+        wgURI: "https://www.w3.org/community/credentials/",
+        // name (with the @w3c.org) of the public mailing to which comments are due
+        wgPublicList: "public-credentials",
+        // URI of the patent status for this WG, for Rec-track documents
+        // !!!! IMPORTANT !!!!
+        // This is important for Rec-track documents, do not copy a patent URI from a random
+        // document unless you know what you're doing. If in doubt ask your friendly neighbourhood
+        // Team Contact.
+        wgPatentURI: "https://www.w3.org/community/about/agreements/cla/",
+
+        otherLinks: [
+          {
+            key: "Source control",
+            data: [
+              {
+                value: "https://github.com/OR13/draft-osteele-vc-jose/",
+                href: "https://github.com/OR13/draft-osteele-vc-jose/",
+              },
+            ],
+          },
+          {
+            key: "Issue Tracker",
+            data: [
+              {
+                value: "https://github.com/OR13/draft-osteele-vc-jose/issues/",
+                href: "https://github.com/OR13/draft-osteele-vc-jose/issues/",
+              },
+            ],
+          },
+        ],
+
+        // URI of the patent status for this WG, for Rec-track documents
+        // !!!! IMPORTANT !!!!
+        // This is important for Rec-track documents, do not copy a patent URI from a random
+        // document unless you know what you're doing. If in doubt ask your friendly neighbourhood
+        // Team Contact.
+        // wgPatentURI:  "",
+        maxTocLevel: 4,
+        /*preProcess: [ webpayments.preProcess ],
+        alternateFormats: [ {uri: "diff-20111214.html", label: "diff to previous version"} ],
+        */
+        localBiblio: {
+          IANA_JOSE: {
+            title: "JOSE",
+            href: "https://www.iana.org/assignments/jose/jose.xhtml",
+          },
+        },
+      };
+    </script>
+    <style>
+      pre .highlight {
+        font-weight: bold;
+        color: green;
+      }
+      pre .comment {
+        font-weight: bold;
+        color: Gray;
+      }
+      .color-text {
+        font-weight: bold;
+        text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+      }
+      ol.algorithm {
+        counter-reset: numsection;
+        list-style-type: none;
+      }
+      ol.algorithm li {
+        margin: 0.5em 0;
+      }
+      ol.algorithm li:before {
+        font-weight: bold;
+        counter-increment: numsection;
+        content: counters(numsection, ".") ") ";
+      }
+    </style>
+  </head>
+  <body>
+    <section id="abstract">
+      <p>
+        This specification describes a hypothetics alternative encoding of W3C
+        Verifiable Credentials.
+      </p>
+    </section>
+
+    <section id="sotd">
+      <p>
+        This is an experimental specification and is undergoing regular
+        revisions. It is not fit for production deployment.
+      </p>
+    </section>
+
+    <section id="conformance"></section>
+
+    <section>
+      <h2>Security Considerations</h2>
+    </section>
+  </body>
+</html>
