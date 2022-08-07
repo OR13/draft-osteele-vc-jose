@@ -3,45 +3,17 @@
   <head>
     <title>Verifiable Credentials for JOSE</title>
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
-    <!--
-      === NOTA BENE ===
-      For the three scripts below, if your spec resides on dev.w3 you can check them
-      out in the same tree and use relative links so that they'll work offline,
-     -->
     <script
       src="https://www.w3.org/Tools/respec/respec-w3c"
       class="remove"
     ></script>
     <script type="text/javascript" class="remove">
       var respecConfig = {
-        // specification status (e.g. WD, LCWD, NOTE, etc.). If in doubt use ED.
         specStatus: "unofficial",
         group: "credentials",
         wgPublicList: "public-credentials",
-        // the specification's short name, as in http://www.w3.org/TR/short-name/
         shortName: "vc-jose",
-        // unable to fix this due to not having a published URL
-
-        // if you wish the publication date to be other than today, set this
-        // publishDate:  "2009-08-06",
-
-        // if there is a previously published draft, uncomment this and set its YYYY-MM-DD date
-        // and its maturity status
-        // previousPublishDate:  "1977-03-15",
-        // previousMaturity:  "WD",
-
-        // if there a publicly available Editor's Draft, this is the link
         edDraftURI: "https://or13.github.io/draft-osteele-vc-jose",
-
-        // if this is a LCWD, uncomment and set the end of its review period
-        // lcEnd: "2009-08-05",
-
-        // if you want to have extra CSS, append them to this list
-        // it is recommended that the respec.css stylesheet be kept
-        //extraCSS:             ["spec.css", "prettify.css"],
-
-        // editors, add as many as you like
-        // only "name" is required
         editors: [
           {
             name: "Orie Steele",
@@ -50,22 +22,7 @@
             companyURL: "https://transmute.industries",
           },
         ],
-
-        // extend the bibliography entries
-        //localBiblio: webpayments.localBiblio,
-
-        wg: "Credentials Community Group",
-        // URI of the public WG page
-        wgURI: "https://www.w3.org/community/credentials/",
-        // name (with the @w3c.org) of the public mailing to which comments are due
-        wgPublicList: "public-credentials",
-        // URI of the patent status for this WG, for Rec-track documents
-        // !!!! IMPORTANT !!!!
-        // This is important for Rec-track documents, do not copy a patent URI from a random
-        // document unless you know what you're doing. If in doubt ask your friendly neighbourhood
-        // Team Contact.
         wgPatentURI: "https://www.w3.org/community/about/agreements/cla/",
-
         otherLinks: [
           {
             key: "Source control",
@@ -86,57 +43,36 @@
             ],
           },
         ],
-
-        // URI of the patent status for this WG, for Rec-track documents
-        // !!!! IMPORTANT !!!!
-        // This is important for Rec-track documents, do not copy a patent URI from a random
-        // document unless you know what you're doing. If in doubt ask your friendly neighbourhood
-        // Team Contact.
-        // wgPatentURI:  "",
         maxTocLevel: 4,
-        /*preProcess: [ webpayments.preProcess ],
-        alternateFormats: [ {uri: "diff-20111214.html", label: "diff to previous version"} ],
-        */
         localBiblio: {
           IANA_JOSE: {
             title: "JOSE",
             href: "https://www.iana.org/assignments/jose/jose.xhtml",
           },
+
+          "JSON-LD": {
+            title: "JSON-LD 1.1: A JSON-based Serialization for Linked Data",
+            href: "https://www.w3.org/TR/json-ld11/",
+            authors: [
+              "Gregg Kellogg",
+              "Manu Sporny",
+              "Dave Longley",
+              "Markus Lanthaler",
+              "Pierre-Antoine Champin",
+              "Niklas Lindström",
+            ],
+            status: "WD",
+            publisher: "W3C JSON-LD 1.1 Working Group",
+          },
         },
       };
     </script>
-    <style>
-      pre .highlight {
-        font-weight: bold;
-        color: green;
-      }
-      pre .comment {
-        font-weight: bold;
-        color: Gray;
-      }
-      .color-text {
-        font-weight: bold;
-        text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
-      }
-      ol.algorithm {
-        counter-reset: numsection;
-        list-style-type: none;
-      }
-      ol.algorithm li {
-        margin: 0.5em 0;
-      }
-      ol.algorithm li:before {
-        font-weight: bold;
-        counter-increment: numsection;
-        content: counters(numsection, ".") ") ";
-      }
-    </style>
   </head>
   <body>
     <section id="abstract">
       <p>
-        This specification describes a hypothetics alternative encoding of W3C
-        Verifiable Credentials.
+        This document describes a hypothetical alternative encoding of W3C
+        Verifiable Credentials using JOSE.
       </p>
     </section>
 
@@ -147,10 +83,948 @@
       </p>
     </section>
 
+    <section>
+      <h2>Introduction</h2>
+
+      <p class="advisement">
+        This document does not reflect working group consensus, and its filled
+        with flawed langauge and half baked arguments.
+      </p>
+      <p>
+        [[VC-DATA-MODEL]] describes a JSON-LD representation for structured
+        claims that an issuer can make about a subject, such that interested
+        parties may be assured of semantic precision, integrity and
+        authenticity.
+      </p>
+
+      <p>There are 3 categories of information in a Verifiable Credential:</p>
+
+      <ul>
+        <li>Metadata</li>
+        <li>Claims</li>
+        <li>Proof</li>
+      </ul>
+
+      <p>
+        In v1.1 we rely on JWT encodings for these categories of information
+        which yielded a number of limitations.
+      </p>
+
+      <p>
+        In v2 we should address the requirements of the core data model in a
+        more generic way.
+      </p>
+
+      <p>
+        We should avoid overloading terminology or conflating semantic or
+        structured data attributes / statments/ claims with security terminology
+        and standard properties of security serialization formats.
+      </p>
+
+      <p>
+        We should design with the the intention of supporting a wider family of
+        structured data representations including compact binary forms in the
+        future.
+      </p>
+
+      <p>
+        We should design with an open mind towards security work happening at
+        IETF on the following lists:
+      </p>
+
+      <ul>
+        <li>
+          <a href="https://datatracker.ietf.org/group/json/about/">JSON</a>
+        </li>
+        <li>
+          <a href="https://datatracker.ietf.org/group/cbor/about/">CBOR</a>
+        </li>
+        <li>
+          <a href="https://datatracker.ietf.org/group/jose/about/">JOSE</a>
+        </li>
+        <li>
+          <a href="https://datatracker.ietf.org/group/cose/about/">COSE</a>
+        </li>
+        <li>
+          <a href="https://datatracker.ietf.org/group/rats/about/">RATS</a>
+        </li>
+        <li>
+          <a href="https://datatracker.ietf.org/group/suit/about/">SUIT</a>
+        </li>
+        <li>
+          <a href="https://datatracker.ietf.org/group/scitt/about/">SCITT</a>
+        </li>
+      </ul>
+
+      <p>
+        We should leverage IANA registries for terms critical for
+        interoperability:
+      </p>
+
+      <ul>
+        <li>
+          <a href="https://www.iana.org/assignments/jose/jose.xhtml">JOSE</a>
+        </li>
+        <li>
+          <a href="https://www.iana.org/assignments/cose/cose.xhtml">COSE</a>
+        </li>
+        <li>
+          <a href="https://www.iana.org/assignments/cbor-tags/cbor-tags.xhtml"
+            >CBOR Tags</a
+          >
+        </li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Actors</h2>
+      <p>
+        [[VC-DATA-MODEL]] describes 3 primary roles an entity can play: issuer,
+        holder, verifier. An actor is an entity that acts in at least 1 of the
+        roles.
+      </p>
+
+      <section>
+        <h2>Issuing</h2>
+
+        <pre class="example">
+          credential -> header, payload (credential), signing capability -> verifiable credential
+        </pre>
+
+        <p>
+          This section describes the action an <code>issuer</code> performs when
+          acting in that role.
+        </p>
+        <p>An issuer first obtains all statements they wish to make.</p>
+        <p>
+          Next the issuer groups these statements into attributes, and at their
+          discretion marks them as metadata or claims.
+        </p>
+        <p>
+          Next the issuer determins the cryptographic material they intend to
+          use to secure these attributes with a proof.
+        </p>
+        <p>
+          The issuer might choose to register verification material prior to
+          issuance or after the fact.
+        </p>
+        <p>
+          The issuer determins which attributes MUST be understood by a
+          verifier.
+        </p>
+        <p>
+          The issuer formats their credential as a payload, constructs a
+          security header and using a private key or signing capability
+          constructs a verifiable credential using a software library.
+        </p>
+        <p>
+          The issuer might optionally verify the newly minted credential after
+          creating it, to ensure that 3rd parties will be able to perform the
+          verififcation process successfully.
+        </p>
+        <p>
+          The issuer might optionally present the newly minted credential to a
+          first holder, or communicate a capability to this holder using some
+          established protocol for offering credentials.
+        </p>
+      </section>
+
+      <section>
+        <h2>Presenting</h2>
+
+        <pre class="example">
+          <- nonce, aud
+          credentials, metadata -> presentation
+          presentation -> header, payload (presentation), signing capability -> verifiable presentation
+        </pre>
+        <p>
+          This section describes the action a <code>holder</code> performs when
+          acting in that role.
+        </p>
+        <p>
+          The holder first determins any required or optional credentials and
+          metadata that a verifier accepts. It is possible the verifier
+          advertises this according to some established protocol for requesting
+          information.
+        </p>
+        <p>
+          Next the holder prepares their presentation, including any credentials
+          and metadata they wish to disclose or prove to the verifier.
+        </p>
+        <p>
+          In the case that the verifier requires a fresh proof, or replay attack
+          mitigation, the holder must obtain a required
+          <code> nonce</code> value from the verifier. An optional
+          <code> aud</code> value might also be chosen by the holder. A verifier
+          might offer suggested nonce and aud values via a well known location,
+          or might accept other credentials or tokens from some issuer trusted
+          by the verifier to facilitate proof freshness.
+        </p>
+        <p>
+          The holder might choose to register verification material prior to
+          presenting or after the fact (presentations might not be processed
+          immediatly).
+        </p>
+        <p>
+          Next the holder crafts their presentation as a payload and secures it
+          using a protected header header and private key or signing capability.
+          Using a software library the holder produces a verifiable
+          presentation.
+        </p>
+        <p>
+          The holder might optionally verify the newly minted presentation after
+          creating it, to ensure that 3rd parties will be able to perform the
+          verififcation process successfully.
+        </p>
+        <p>
+          The holder might optionally transmit the verifiable presentation over
+          a network, or to an internal software system or to a harware device
+          via a transport protocol.
+        </p>
+      </section>
+
+      <section>
+        <h2>Verifying</h2>
+        <pre class="example">
+
+          verifiable credential -> header, payload, signature, public key -> 
+            verified: true | false, 
+            details: []
+
+          verifiable presentation -> header, payload, signature, public key -> 
+            verified: true | false, 
+            credential details: []
+
+        </pre>
+
+        <p>
+          This section describes the action an <code>verifier</code> performs
+          when acting in that role.
+        </p>
+
+        <p>
+          The verifier first obtains any required or optional credentials and
+          presentations. Its possible the verifier advertises this according to
+          some established protocol for requesting information.
+        </p>
+
+        <p>
+          The verifier first obtains the holder's registered verification
+          material and validates proof associated with the presentation.
+        </p>
+
+        <p>
+          Next the verifier checks all the required to be understood attributes.
+        </p>
+
+        <p>
+          Next the verifier might at their discretion reject presentations or
+          mark them as invalid based on their own understanding of attributes.
+        </p>
+
+        <p>Next the verifier checks each credential presented.</p>
+
+        <p>
+          Next the verifier obtains the verification material for each
+          credential issuer, and uses a software library to check the credential
+          proof.
+        </p>
+
+        <p>
+          Next the verifier might at their discretion reject credentials or mark
+          them as invalid based on their own understanding of attributes.
+        </p>
+
+        <p>
+          The verifier might store the presentation, credentials or just the
+          claims and associated metadata.
+        </p>
+        <p>
+          The verifier might acknowledge receipt or acceptance / rejection of
+          the presentation as a whole or in parts to the holder.
+        </p>
+      </section>
+    </section>
+
+    <section>
+      <h2>Attributes</h2>
+      <p>
+        [[VC-DATA-MODEL]] describes claims and metadata. An attribute is a
+        claim, and/or metadata.
+      </p>
+
+      <section>
+        <h2>Producing</h2>
+        <p>
+          Header and payload and signature are produced by the issuer, or
+          prover.
+        </p>
+        <p>
+          Values for attributes in the header are more authoritative than those
+          present in payloads.
+        </p>
+
+        <p>
+          Issuers and provers MUST NOT create contradictng metadata or claims
+          associated with the header values, in the payload.
+        </p>
+
+        <p class="note">
+          A verifiable credential is produced when a <code>credential</code> is
+          used as a JWS Payload and secured with a protected header and
+          signature.
+        </p>
+      </section>
+
+      <section>
+        <h2>Consuming</h2>
+
+        <p>
+          A verifier MUST process the header and understand all critical values
+          in it.
+        </p>
+
+        <p>
+          Metadata associated with the security of the payload is exclusive to
+          the header.
+        </p>
+
+        <p>
+          Values for attributes in the header are more authoritative than those
+          present in payloads.
+        </p>
+
+        <p>
+          Once a credential or presenation has been verified, the header can be
+          ignored and the payload becomes the source of truth for claims made by
+          the issuer.
+        </p>
+
+        <p class="note">
+          A credential is consumed when a <code>verifiable credential</code>,
+          represented as a header, payload and signature is verified using a
+          public key trusted by the verifier.
+        </p>
+      </section>
+
+      <section>
+        <h2>Header</h2>
+
+        <p>
+          See
+          <a href="https://www.rfc-editor.org/rfc/rfc7515.html#section-4"
+            >JWS Header Parameters</a
+          >.
+        </p>
+
+        <p>
+          See
+          <a href="https://www.rfc-editor.org/rfc/rfc7516.html#section-4"
+            >JWE Header Parameters</a
+          >.
+        </p>
+
+        <p>Headers MAY contain <a href="#attributes">attributes</a>.</p>
+
+        <p>
+          Actors MUST understand all <a href="#attributes">attributes</a> marked
+          critical via the header.
+        </p>
+
+        <p>
+          The header is in a sense a collection of metadata about the
+          "statements" or "claims" the issuer is making about the payload and
+          its security properties.
+        </p>
+
+        <p class="advisement">
+          The security of the serialization scheme comes exclusively from
+          processing the header, payload and signature using the verification
+          material. The header and payload must be treated as opaque until this
+          process has suceeded or failed. Leveraging of <code>iss</code> and
+          <code>kid</code> as a hint to obtain the verification material is the
+          only exception to this rule.
+        </p>
+
+        <section>
+          <h2>iss</h2>
+          <pre class="example" title="Issuer identifiers">
+            did:example:123 
+            https://government.example
+            https://organization.example
+            https://person.example
+            https://device.example
+          </pre>
+        </section>
+        <section>
+          <h2>kid</h2>
+          <pre class="example" title="Absolute key identifiers">
+            did:example:123#key-0
+            https://government.example/path/bar?query=foo#fragment-baz
+          </pre>
+
+          <pre class="example" title="Relative (to iss) key identifiers">
+            #key-0
+            /path/bar?query=foo#fragment-baz
+          </pre>
+
+          <pre class="example" title="Generic key identifiers">
+            _Qq0UL2Fq651Q0Fjd6TvnYE-faHiOpRlPVQcY_-tA4A
+          </pre>
+
+          <p class="issue" title="using hints">
+            <a href="https://www.rfc-editor.org/rfc/rfc7515.html#section-4.1.4"
+              >using hints:
+            </a>
+            The "kid" (key ID) Header Parameter is a hint indicating which key
+            was used to secure the JWS.
+          </p>
+
+          <p class="issue" title="Absolute hints">
+            In the case that a <code>kid</code> is some form of absolute IRI,
+            the issuer is assumed to be optional, and MUST NOT be used to obtain
+            verification material.
+          </p>
+
+          <p class="issue" title="Relative hints">
+            In the case that a <code>kid</code> is some form of relative IRI,
+            the <code>iss</code> MUST be present, and MUST be used to obtain
+            verification material.
+          </p>
+
+          <p class="issue" title="Generic hints">
+            In the case that a <code>kid</code> is not an IRI, it is assumed to
+            be a sufficient hint for a verifier to verification material.
+          </p>
+        </section>
+        <section>
+          <h2>alg</h2>
+          <pre class="example" title="Algorithm identifiers">
+            ES256
+            EdDSA
+          </pre>
+
+          <p class="issue" title="allow unregistered algorithms">
+            <a href="https://www.rfc-editor.org/rfc/rfc7515.html#section-4.1.1"
+              >allow unregistered algorithms
+            </a>
+            "alg" values should either be registered in the IANA "JSON Web
+            Signature and Encryption Algorithms" registry established by [JWA]
+            or be a value that contains a Collision-Resistant Name.
+          </p>
+        </section>
+        <section>
+          <h2>cty</h2>
+          <pre class="example" title="Content type identifiers">
+            application/vc+json
+            application/vc+ld+json
+          </pre>
+
+          <p class="issue" title="omit media type prefix">
+            <a href="https://www.rfc-editor.org/rfc/rfc7515.html#section-4.1.10"
+              >See omit media type prefix:</a
+            >
+            To keep messages compact in common situations, it is RECOMMENDED
+            that producers omit an "application/" prefix of a media type value
+            in a "cty" Header Parameter when no other '/' appears in the media
+            type value. A recipient using the media type value MUST treat it as
+            if "application/" were prepended to any "cty" value not containing a
+            '/'. For instance, a "cty" value of "example" SHOULD be used to
+            represent the "application/example" media type, whereas the media
+            type "application/example;part="1/2"" cannot be shortened to
+            "example;part="1/2"".
+          </p>
+        </section>
+
+        <section>
+          <h2>crit</h2>
+
+          <p class="note">
+            We should use <code>crit</code> to require verifiable credentials
+            encoded using JOSE to be <code>distinguishable</code> and
+            consistently processed relative to existing token formats, such as
+            <code>id_token</code>, <code>access_token</code> or other JWTs.
+          </p>
+
+          <p class="issue" title="extensions that MUST be understood">
+            <a href="https://www.rfc-editor.org/rfc/rfc7515.html#section-4.1.11"
+              >See extensions that MUST be understood:</a
+            >
+            The "crit" (critical) Header Parameter indicates that extensions to
+            this specification and/or [JWA] are being used that MUST be
+            understood and processed. Its value is an array listing the Header
+            Parameter names present in the JOSE Header that use those
+            extensions. If any of the listed extension Header Parameters are not
+            understood and supported by the recipient, then the JWS is invalid.
+            Producers MUST NOT include Header Parameter names defined by this
+            specification or [JWA] for use with JWS, duplicate names, or names
+            that do not occur as Header Parameter names within the JOSE Header
+            in the "crit" list. Producers MUST NOT use the empty list "[]" as
+            the "crit" value. Recipients MAY consider the JWS to be invalid if
+            the critical list contains any Header Parameter names defined by
+            this specification or [JWA] for use with JWS or if any other
+            constraints on its use are violated. When used, this Header
+            Parameter MUST be integrity protected; therefore, it MUST occur only
+            within the JWS Protected Header. Use of this Header Parameter is
+            OPTIONAL. This Header Parameter MUST be understood and processed by
+            implementations.
+          </p>
+        </section>
+
+        <section>
+          <h2>nbf</h2>
+          <p class="issue" title="nbf applies to payload">
+            Explain how payload is activated as distinct from how claims in
+            payload are interpretted.
+          </p>
+        </section>
+
+        <section>
+          <h2>exp</h2>
+          <p class="issue" title="exp applies to payload">
+            Explain how payload is expired as distinct from how claims in
+            payload are interpretted.
+          </p>
+        </section>
+
+        <section>
+          <h2>jti</h2>
+
+          <p class="advisement">
+            Seems relevant to verifiable presentations and NOT relevant to
+            verifiable credentials.
+          </p>
+
+          <p class="issue" title="jti and nonce ambiguity">
+            The "jti" claim can be used to prevent the JWT from being replayed.
+          </p>
+
+          <p class="issue" title="jti and id ambiguity">
+            The "jti" (JWT ID) claim provides a unique identifier for the JWT.
+          </p>
+        </section>
+
+        <section>
+          <h2>x5c</h2>
+          <p class="issue" title="support certificate chains by value">
+            <a href="https://www.rfc-editor.org/rfc/rfc7517.html#section-4.7"
+              >X.509 certificate chain:
+            </a>
+
+            The "x5c" (X.509 certificate chain) parameter contains a chain of
+            one or more PKIX certificates [[RFC5280]].
+          </p>
+        </section>
+
+        <section>
+          <h2>x5u</h2>
+          <p class="issue" title="support certificate chains by reference">
+            <a href="https://www.rfc-editor.org/rfc/rfc7517.html#section-4.6"
+              >X.509 URL:
+            </a>
+            The "x5u" (X.509 URL) parameter is a URI [[RFC3986]] that refers to
+            a resource for an X.509 public key certificate or certificate chain
+            [[RFC5280]].
+          </p>
+        </section>
+      </section>
+      <section>
+        <h2>Payload</h2>
+        <p>Payloads MAY contain <a href="#attributes">attributes</a>.</p>
+
+        <p class="issue" title="allowed payload types">
+          <a href="https://www.rfc-editor.org/rfc/rfc7515.html#appendix-A.1.1">
+            allowed payload types:
+          </a>
+          The JWS Payload used in this example is the octets of the UTF-8
+          representation of the JSON object below. (Note that the payload can be
+          any base64url-encoded octet sequence and need not be a base64url-
+          encoded JSON object.)
+        </p>
+
+        <p class="issue" title="binding to the vc data model">
+          The "JWS Payload" MUST be of a content type defined by the
+          [[VC-DATA-MODEL]].
+        </p>
+      </section>
+    </section>
+
+    <section>
+      <h2>Credential</h2>
+
+      <p class="issue">
+        TODO: Point to core data model definition of <code>credential</code>.
+      </p>
+
+      <p class="issue">
+        TODO: Provide guidance regarding handling embedded
+        <code>proof</code> property. (ignore by default.)
+      </p>
+
+      <section>
+        <h2>application/vc+ld+json</h2>
+        <p>Payloads of this type MUST conform to [[RFC8259]].</p>
+        <p>
+          Payloads of this type MUST be a JSON-LD Document as described in
+          <a href="https://www.w3.org/TR/json-ld11/#dfn-json-ld-document"
+            >JSON-LD
+          </a>
+        </p>
+      </section>
+    </section>
+    <section>
+      <h2>Presentation</h2>
+
+      <p class="issue">
+        TODO: Point to core data model definition of
+        <code>presentation</code>.
+      </p>
+
+      <p class="issue">
+        TODO: Provide guidance regarding handling embedded
+        <code>proof</code> property. (ignore by default.)
+      </p>
+
+      <section>
+        <h2>application/vp+ld+json</h2>
+        <p>Payloads of this type MUST conform to [[RFC8259]].</p>
+      </section>
+    </section>
+
+    <section>
+      <h2>Credential Examples</h2>
+
+      <section>
+        <h2>Government ID</h2>
+        <pre
+          class="example"
+          title="Decoded government issued identity verifiable credential"
+        >
+{
+  "header": {
+    "iss": "https://government.example",
+    "kid": "/issuers/42#key-1337",
+    "alg": "ES256",
+    "cty": "application/vc+ld+json",
+    "nbf": 1575375592000,
+    "exp": 1890994792000,
+    "crit": ["cty", "nbf", "exp"]
+  },
+  "payload": {
+    "@context": [
+      "https://www.w3.org/2018/credentials/v1",
+      "https://w3id.org/citizenship/v1"
+    ],
+    "id": "urn:uuid:e42a1c3c-3cbf-4834-9430-dc2376b8ef0c",
+    "type": ["VerifiableCredential", "PermanentResidentCard"],
+    "issuer": "https://government.example",
+    "identifier": "e42a1c3c-3cbf-4834-9430-dc2376b8ef0c",
+    "name": "Permanent Resident Card",
+    "description": "Government of Example Permanent Resident Card.",
+    "issuanceDate": "2019-12-03T12:19:52Z",
+    "expirationDate": "2029-12-03T12:19:52Z",
+    "credentialSubject": {
+      "id": "did:example:b34ca6cd37bbf23",
+      "type": ["PermanentResident", "Person"],
+      "givenName": "JOHN",
+      "familyName": "SMITH",
+      "gender": "Male",
+      "image": "data:image/png;base64,iVBORw0KGgo...kJggg==",
+      "residentSince": "2015-01-01",
+      "lprCategory": "C09",
+      "lprNumber": "999-999-999",
+      "commuterClassification": "C1",
+      "birthCountry": "Bahamas",
+      "birthDate": "1958-07-17"
+    }
+  },
+  "signature": "ZW5jb2RpbmctaXMtbm90LWVuY3J5cHRpb24h"
+}      
+        </pre>
+      </section>
+
+      <section>
+        <h2>Bill of Ladding</h2>
+        <pre
+          class="example"
+          title="Decoded bill of ladding verifiable credential"
+        >
+{
+  "header": {
+    "iss": "https://logistics.example",
+    "kid": "/issuers/32#deadbeef",
+    "alg": "EdDSA",
+    "cty": "application/vc+ld+json",
+    "nbf": 1576036255000,
+    "crit": ["cty", "nbf"]
+  },
+  "payload": {
+    "@context": [
+      "https://www.w3.org/2018/credentials/v1",
+      "https://w3id.org/traceability/v1"
+    ],
+    "id": "https://logistics.example/credential/123",
+    "type": ["VerifiableCredential", "BillOfLadingCertificate"],
+    "name": "Bill Of Lading Certificate",
+    "description": "This document includes recommended bill of lading fields.",
+    "issuanceDate": "2019-12-11T03:50:55Z",
+    "issuer": {
+      "id": "https://logistics.example",
+      "type": "Organization",
+      "name": "Hauck Group",
+      "description": "Focused secondary synergy",
+      "address": {
+        "type": "PostalAddress",
+        "streetAddress": "3198 O'Kon Wall",
+        "addressLocality": "North Adolphchester",
+        "addressRegion": "Nevada",
+        "postalCode": "50788",
+        "addressCountry": "Cote d'Ivoire"
+      },
+      "email": "Bernita.Quitzon98@example.com",
+      "phoneNumber": "555-171-4411",
+      "faxNumber": "+1-555-758-9761"
+    },
+    "credentialSubject": {
+      "type": ["BillOfLading"],
+      "billOfLadingNumber": "991205182A",
+      "bookingNumber": "991205182",
+      "scac": "NISC",
+      "carrier": {
+        "type": ["Organization"],
+        "name": "Carrior Goods And More",
+        "email": "Adaline29@example.com",
+        "phoneNumber": "+1 555-234-9983"
+      },
+      "consignor": {
+        "type": ["Organization"],
+        "name": "Consignor Is Us",
+        "email": "Idella60@example.org",
+        "phoneNumber": "+1-555-953-9479"
+      },
+      "consignee": {
+        "type": ["Organization"],
+        "name": "Victorian Consignee",
+        "email": "Victoria.Hane74@example.org",
+        "phoneNumber": "+1-555-455-9053"
+      },
+      "notify": {
+        "type": ["Organization"],
+        "name": "Florida Contact Org",
+        "email": "Florida91@example.net",
+        "phoneNumber": "+1-555-104-1126"
+      },
+      "freight": {
+        "type": ["ParcelDelivery"],
+        "deliveryAddress": {
+          "type": ["Place"],
+          "geo": {
+            "type": ["GeoCoordinates"],
+            "latitude": "-20.840731978309044",
+            "longitude": "-159.78393883134225"
+          },
+          "address": {
+            "type": ["PostalAddress"],
+            "organizationName": "Hahn LLC",
+            "streetAddress": "786 Pfeffer Plains",
+            "addressLocality": "West Ottilie",
+            "addressRegion": "Nebraska",
+            "postalCode": "50878-0870",
+            "addressCountry": "Cook Islands"
+          }
+        },
+        "originAddress": {
+          "type": ["Place"],
+          "geo": {
+            "type": ["GeoCoordinates"],
+            "latitude": "-23.25979250428427",
+            "longitude": "-58.36431415044023"
+          },
+          "address": {
+            "type": ["PostalAddress"],
+            "organizationName": "Rosenbaum, Hills and Pagac",
+            "streetAddress": "71834 Zelma Trail",
+            "addressLocality": "West Gerhardview",
+            "addressRegion": "North Carolina",
+            "postalCode": "78251-3640",
+            "addressCountry": "Paraguay"
+          }
+        },
+        "deliveryMethod": "Ocean transport",
+        "trackingNumber": "178380801954"
+      },
+      "portOfLoading": {
+        "type": ["Place"],
+        "unLocode": "USMOB"
+      },
+      "portOfDischarge": {
+        "type": ["Place"],
+        "unLocode": "MXATM"
+      }
+    }
+  },
+  "signature": "ZW5jb2RpbmctaXMtbm90LWVuY3J5cHRpb24h"
+}
+        </pre>
+      </section>
+    </section>
+
+    <section>
+      <h2>Presentation Examples</h2>
+
+      <p class="advisement">
+        These examples are framed in language that is meant to be understandable
+        by the general public, these examples are not reflective of suggested
+        use for the specification.
+      </p>
+
+      <section>
+        <h2>Purchasing alcohol</h2>
+        <p>
+          Some verifiers might require proof of age prior to the purchase of
+          certain products.
+        </p>
+
+        <pre class="example" title="Presenting proof of age">
+{
+  "header": {
+    "iss": "did:example:123",
+    "kid": "#555",
+    "alg": "ES256",
+    "cty": "application/vp+ld+json",
+    "aud": "drug-store.example",
+    "nonce": "fe3b66da-6faa-4f48-9a28-3e66febc737b",
+    "crit": ["cty", "aud", "nonce"]
+  },
+  "payload": {
+    "@context": ["https://www.w3.org/2018/credentials/v1"],
+    "type": "VerifiablePresentation",
+    "holder": "did:example:123",
+    // encoded government id verifiable credential
+    "verifiableCredential": ["ZW5jb2RpbmctaXMtbm90LWVuY3J5cHRpb24h..."] 
+  },
+  "signature": "ZW5jb2RpbmctaXMtbm90LWVuY3J5cHRpb24h"
+}          
+        </pre>
+      </section>
+
+      <section>
+        <h2>Clearing customs</h2>
+
+        <p>
+          Some verifiers might require scientific tests or provenance assertions
+          prior to allowing products to move into logistics infrastructure.
+        </p>
+
+        <pre class="example" title="Presenting proof of product origin">
+{
+  "header": {
+    "iss": "did:example:123",
+    "kid": "#555",
+    "alg": "ES256",
+    "cty": "application/vp+ld+json",
+    "aud": "customs.example",
+    "nonce": "fe3b66da-6faa-4f48-9a28-3e66febc737b",
+    "crit": ["cty", "aud", "nonce"]
+  },
+  "payload": {
+    "@context": [
+      "https://www.w3.org/2018/credentials/v1",
+      "https://w3id.org/traceability/v1"
+    ],
+    "id": "urn:uuid:3978344f-8596-4c3a-a978-8fcaba3903c5",
+    "type": ["VerifiablePresentation", "TraceablePresentation"],
+    "workflow": {
+      "definition": ["urn:uuid:n1552885-cc91-4bb3-91f1-5466a0be084e"],
+      "instance": ["urn:uuid:f5fb6ce4-b0b1-41b8-89b0-331ni58b7ee0"]
+    },
+    "holder": {
+      "id": "did:example:456",
+      "type": "Organization",
+      "location": {
+        "type": "Place",
+        "geo": {
+          "type": "GeoCoordinates",
+          "latitude": "68.7083",
+          "longitude": "4.6377"
+        },
+        "address": {
+          "type": "PostalAddress",
+          "organizationName": "Ratke - Bergstrom",
+          "streetAddress": "21851 Ima Heights",
+          "addressLocality": "O'Connellborough",
+          "addressRegion": "Missouri",
+          "postalCode": "65587",
+          "addressCountry": "Cyprus"
+        }
+      }
+    },
+    // bill of ladding and certificate of origin for products 
+    // encoded as verifiable credentials
+    "verifiableCredential": [
+      "ZW5jb2RpbmctaXMtbm90LWVuY3J5cHRpb24h...",
+      "ZW5jb2RpbmctaXMtbm90LWVuY3J5cHRpb24h..."
+    ]
+  },
+  "signature": "ZW5jb2RpbmctaXMtbm90LWVuY3J5cHRpb24h"
+}
+        </pre>
+      </section>
+    </section>
+
     <section id="conformance"></section>
 
     <section>
       <h2>Security Considerations</h2>
+
+      <section>
+        <h2>Authority of the verification material</h2>
+        <p>
+          The verification material (public key or certificate) is the ultimate
+          authority regarding the security of the serialization of the data
+          model.
+        </p>
+
+        <p>
+          Hints used to obtain this material such as <code>iss</code>, or
+          <code>kid</code> ought to be helpful, but are not required to be.
+        </p>
+
+        <p>For example:</p>
+
+        <pre class="example" title="Hints don't really matter.">
+          {
+            "iss": "https://gov.example",
+            "kid": "did:example:789#key-234",
+            "alg": "ES256"
+          }
+        </pre>
+
+        <p>
+          A verifier might choose to hash this object and then lookup a
+          certificate. If the verifier trusts the certificate, that is all they
+          need to proceed to processing the associated payload.
+        </p>
+
+        <p>
+          Some actors might rely on defined protocols for obtaining keys or
+          certificates based on hints.
+        </p>
+
+        <p>
+          A verifier is not required to disclose how they obtain the issuer's
+          key material.
+        </p>
+      </section>
+
+      <section>
+        <h2>Opacity of claims</h2>
+        <p>Issuers are not required to disclose attributes in plaintext.</p>
+        <p>
+          This might result in awkwardness for the holder, as they cannot see
+          what claims are in a given credential.
+        </p>
+      </section>
     </section>
   </body>
 </html>

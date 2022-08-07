@@ -1,0 +1,116 @@
+{
+  "header": {
+    "iss": "https://logistics.example",
+    "kid": "/issuers/32#deadbeef",
+    "alg": "EdDSA",
+    "cty": "application/vc+ld+json",
+    "nbf": 1576036255000,
+    "crit": ["cty", "nbf"]
+  },
+  "payload": {
+    "@context": [
+      "https://www.w3.org/2018/credentials/v1",
+      "https://w3id.org/traceability/v1"
+    ],
+    "id": "https://logistics.example/credential/123",
+    "type": ["VerifiableCredential", "BillOfLadingCertificate"],
+    "name": "Bill Of Lading Certificate",
+    "description": "This document includes recommended bill of lading fields.",
+    "issuanceDate": "2019-12-11T03:50:55Z",
+    "issuer": {
+      "id": "https://logistics.example",
+      "type": "Organization",
+      "name": "Hauck Group",
+      "description": "Focused secondary synergy",
+      "address": {
+        "type": "PostalAddress",
+        "streetAddress": "3198 O'Kon Wall",
+        "addressLocality": "North Adolphchester",
+        "addressRegion": "Nevada",
+        "postalCode": "50788",
+        "addressCountry": "Cote d'Ivoire"
+      },
+      "email": "Bernita.Quitzon98@example.com",
+      "phoneNumber": "555-171-4411",
+      "faxNumber": "+1-555-758-9761"
+    },
+    "credentialSubject": {
+      "type": ["BillOfLading"],
+      "billOfLadingNumber": "991205182A",
+      "bookingNumber": "991205182",
+      "scac": "NISC",
+      "carrier": {
+        "type": ["Organization"],
+        "name": "Carrior Goods And More",
+        "email": "Adaline29@example.com",
+        "phoneNumber": "+1 555-234-9983"
+      },
+      "consignor": {
+        "type": ["Organization"],
+        "name": "Consignor Is Us",
+        "email": "Idella60@example.org",
+        "phoneNumber": "+1-555-953-9479"
+      },
+      "consignee": {
+        "type": ["Organization"],
+        "name": "Victorian Consignee",
+        "email": "Victoria.Hane74@example.org",
+        "phoneNumber": "+1-555-455-9053"
+      },
+      "notify": {
+        "type": ["Organization"],
+        "name": "Florida Contact Org",
+        "email": "Florida91@example.net",
+        "phoneNumber": "+1-555-104-1126"
+      },
+      "freight": {
+        "type": ["ParcelDelivery"],
+        "deliveryAddress": {
+          "type": ["Place"],
+          "geo": {
+            "type": ["GeoCoordinates"],
+            "latitude": "-20.840731978309044",
+            "longitude": "-159.78393883134225"
+          },
+          "address": {
+            "type": ["PostalAddress"],
+            "organizationName": "Hahn LLC",
+            "streetAddress": "786 Pfeffer Plains",
+            "addressLocality": "West Ottilie",
+            "addressRegion": "Nebraska",
+            "postalCode": "50878-0870",
+            "addressCountry": "Cook Islands"
+          }
+        },
+        "originAddress": {
+          "type": ["Place"],
+          "geo": {
+            "type": ["GeoCoordinates"],
+            "latitude": "-23.25979250428427",
+            "longitude": "-58.36431415044023"
+          },
+          "address": {
+            "type": ["PostalAddress"],
+            "organizationName": "Rosenbaum, Hills and Pagac",
+            "streetAddress": "71834 Zelma Trail",
+            "addressLocality": "West Gerhardview",
+            "addressRegion": "North Carolina",
+            "postalCode": "78251-3640",
+            "addressCountry": "Paraguay"
+          }
+        },
+        "deliveryMethod": "Ocean transport",
+        "trackingNumber": "178380801954"
+      },
+      "portOfLoading": {
+        "type": ["Place"],
+        "unLocode": "USMOB"
+      },
+      "portOfDischarge": {
+        "type": ["Place"],
+        "unLocode": "MXATM"
+      }
+    }
+  },
+  "signature": "ZW5jb2RpbmctaXMtbm90LWVuY3J5cHRpb24h"
+}

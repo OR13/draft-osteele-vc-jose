@@ -1,0 +1,18 @@
+{
+  "header": {
+    "iss": "did:example:123",
+    "kid": "#555",
+    "alg": "ES256",
+    "cty": "application/vp+ld+json",
+    "aud": "drug-store.example",
+    "nonce": "fe3b66da-6faa-4f48-9a28-3e66febc737b",
+    "crit": ["cty", "aud", "nonce"]
+  },
+  "payload": {
+    "@context": ["https://www.w3.org/2018/credentials/v1"],
+    "type": "VerifiablePresentation",
+    "holder": "did:example:123",
+    "verifiableCredential": ["ZW5jb2RpbmctaXMtbm90LWVuY3J5cHRpb24h..."]
+  },
+  "signature": "ZW5jb2RpbmctaXMtbm90LWVuY3J5cHRpb24h"
+}

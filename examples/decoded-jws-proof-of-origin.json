@@ -1,0 +1,49 @@
+{
+  "header": {
+    "iss": "did:example:123",
+    "kid": "#555",
+    "alg": "ES256",
+    "cty": "application/vp+ld+json",
+    "aud": "drug-store.example",
+    "nonce": "fe3b66da-6faa-4f48-9a28-3e66febc737b",
+    "crit": ["cty", "aud", "nonce"]
+  },
+  "payload": {
+    "@context": [
+      "https://www.w3.org/2018/credentials/v1",
+      "https://w3id.org/traceability/v1"
+    ],
+    "id": "urn:uuid:3978344f-8596-4c3a-a978-8fcaba3903c5",
+    "type": ["VerifiablePresentation", "TraceablePresentation"],
+    "workflow": {
+      "definition": ["urn:uuid:n1552885-cc91-4bb3-91f1-5466a0be084e"],
+      "instance": ["urn:uuid:f5fb6ce4-b0b1-41b8-89b0-331ni58b7ee0"]
+    },
+    "holder": {
+      "id": "did:example:456",
+      "type": "Organization",
+      "location": {
+        "type": "Place",
+        "geo": {
+          "type": "GeoCoordinates",
+          "latitude": "68.7083",
+          "longitude": "4.6377"
+        },
+        "address": {
+          "type": "PostalAddress",
+          "organizationName": "Ratke - Bergstrom",
+          "streetAddress": "21851 Ima Heights",
+          "addressLocality": "O'Connellborough",
+          "addressRegion": "Missouri",
+          "postalCode": "65587",
+          "addressCountry": "Cyprus"
+        }
+      }
+    },
+    "verifiableCredential": [
+      "ZW5jb2RpbmctaXMtbm90LWVuY3J5cHRpb24h...",
+      "ZW5jb2RpbmctaXMtbm90LWVuY3J5cHRpb24h..."
+    ]
+  },
+  "signature": "ZW5jb2RpbmctaXMtbm90LWVuY3J5cHRpb24h"
+}
