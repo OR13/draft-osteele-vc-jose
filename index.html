@@ -480,6 +480,10 @@
             The "kid" (key ID) Header Parameter is a hint indicating which key
             was used to secure the JWS.
           </p>
+          
+          <p class="advisement">
+            [[RFC3986]] MUST be used for interpertation and resolution of URIs, and defines the rules for relative URIs.
+          </p>
 
           <p class="issue" title="Absolute hints">
             In the case that a <code>kid</code> is some form of absolute IRI,
@@ -596,8 +600,8 @@
             verifiable credentials.
           </p>
 
-          <p class="issue" title="jti and nonce ambiguity">
-            The "jti" claim can be used to prevent the JWT from being replayed.
+          <p class="advisement" title="jti and nonce ambiguity">
+            The "jti" claim MAY be used to prevent the JWT from being replayed.
           </p>
 
           <p class="issue" title="jti and id ambiguity">
